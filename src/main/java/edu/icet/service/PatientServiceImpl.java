@@ -1,24 +1,35 @@
 package edu.icet.service;
 
 import edu.icet.dto.Patient;
+import edu.icet.entity.PatientEntity;
+import edu.icet.repository.PatientRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PatientServiceImpl implements PatientService{
-    List<Patient>patientList=new ArrayList<>();
+@RequiredArgsConstructor
+public class PatientServiceImpl implements PatientService {
+
+    final PatientRepository repository;
+    final ModelMapper mapper;
+
 
     @Override
     public List<Patient> getPatient() {
+        List<Patient> patientList = new ArrayList<>();
+        repository.findAll().forEach(patientEntity -> {
+            patientList.add(mapper.map(patientEntity, Patient.class));
+        });
         return patientList;
     }
 
     @Override
-
     public void addPatient(Patient patient) {
-        patientList.add(patient);
+        repository.save(mapper.map(patient, PatientEntity.class));
     }
 }

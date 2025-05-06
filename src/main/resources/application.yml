@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/patientmanage
+    username: root
+    password: Kushan23
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+
