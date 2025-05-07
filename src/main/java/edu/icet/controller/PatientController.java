@@ -3,10 +3,7 @@ package edu.icet.controller;
 import edu.icet.dto.Patient;
 import edu.icet.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,15 @@ public class PatientController {
 
     @PostMapping("/add-patient")
     public void addPatient(@RequestBody Patient patient){
+        service.addPatient(patient);
+    }
+
+    @DeleteMapping("/delete-by-id/{id}")
+        public void deletePatient(@PathVariable Integer id){
+            service.deletePatient(id);
+    }
+    @PutMapping("update")
+    public void updatePatient(@RequestBody Patient patient){
         service.addPatient(patient);
     }
 }
