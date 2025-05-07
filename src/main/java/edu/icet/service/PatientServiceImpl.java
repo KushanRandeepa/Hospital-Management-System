@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,4 +38,56 @@ public class PatientServiceImpl implements PatientService {
     public void deletePatient(Integer id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<Patient> searchByName(String name) {
+        List<Patient> patients = new ArrayList<>();
+        repository.findByName(name).forEach(patientEntity -> {
+            patients.add(mapper.map(patientEntity, Patient.class));
+        });
+        return patients;
+    }
+
+    @Override
+    public Patient searchById(Integer id) {
+        return mapper.map(repository.findById(id),Patient.class);
+    }
+
+    @Override
+    public List<Patient> searchByAddress(String address) {
+        List<Patient> patients = new ArrayList<>();
+        repository.findByAddress(address).forEach(patientEntity -> {
+           patients.add( mapper.map(patientEntity,Patient.class));
+        });
+        return patients;
+    }
+
+    @Override
+    public List<Patient> searchByNic(String nic) {
+        List<Patient> patients = new ArrayList<>();
+        repository.findByNic(nic).forEach(patientEntity -> {
+            patients.add(mapper.map(patientEntity,Patient.class));
+        });
+        return patients;
+    }
+
+    @Override
+    public List<Patient> searchByCategory(String category) {
+        List<Patient> patients = new ArrayList<>();
+        repository.findByCategory(category).forEach(patientEntity -> {
+            patients.add(mapper.map(patientEntity,Patient.class));
+        });
+        return patients;
+    }
+
+    @Override
+    public List<Patient> searchByBloodGroup(String bloodGroup) {
+        List<Patient> patients = new ArrayList<>();
+        repository.findByBloodGroup(bloodGroup).forEach(patientEntity -> {
+            patients.add(mapper.map(patientEntity, Patient.class));
+        });
+        return patients;
+    }
+
+
 }
