@@ -2,18 +2,17 @@ package edu.icet.controller;
 
 import edu.icet.dto.Patient;
 import edu.icet.service.PatientService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class PatientController {
 
-    @Autowired
-     PatientService service;
+    final PatientService service;
 
     @GetMapping("/get-all")
     public List<Patient> getPatient() {
