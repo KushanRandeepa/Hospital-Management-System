@@ -22,6 +22,6 @@ public class Appointment {
     private String status;
     private Integer roomNumber;
     private Integer queNumber;
-    private Integer patientID;
-    private Integer adminID;
+    private Integer patientId;
+    private Integer adminId;
 }
