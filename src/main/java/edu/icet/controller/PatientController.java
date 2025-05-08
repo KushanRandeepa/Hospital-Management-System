@@ -57,7 +57,7 @@ public class PatientController {
         return service.searchByCategory(category);
     }
     @GetMapping("/search-by-bloodGroup/{bloodGroup}")
-    public List<Patient> searchByBlooGroup(@PathVariable String bloodGroup){
+    public List<Patient> searchByBloodGroup(@PathVariable String bloodGroup){
         return service.searchByBloodGroup(bloodGroup);
     }
 }
