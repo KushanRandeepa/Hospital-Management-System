@@ -16,6 +16,7 @@ public class Patient {
     private String bloodGroup;
     private String category;
     private String gender;
+    private String age;
     private String contact;
     private String note;
     private String allergies;
