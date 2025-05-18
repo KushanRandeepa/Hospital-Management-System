@@ -29,7 +29,7 @@ public class PatientController {
 
     @DeleteMapping("/delete-by-id/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-        public void deletePatient(@PathVariable Integer id){
+        public void deletePatient(@PathVariable String id){
             service.deletePatient(id);
     }
     @PutMapping("update")
@@ -43,7 +43,7 @@ public class PatientController {
        return service.searchByName(name);
     }
     @GetMapping("/search-by-id/{id}")
-    public Patient searchById(@PathVariable Integer id){
+    public Patient searchById(@PathVariable String id){
         return service.searchById(id);
     }
     @GetMapping("/search-by-address/{address}")
@@ -55,7 +55,7 @@ public class PatientController {
         return service.searchByNic(nic);
     }
     @GetMapping("/search-by-category/{category}")
-    public List<Patient> searchById(@PathVariable  String category){
+    public List<Patient> searchByCategory(@PathVariable  String category){
         return service.searchByCategory(category);
     }
     @GetMapping("/search-by-bloodGroup/{bloodGroup}")

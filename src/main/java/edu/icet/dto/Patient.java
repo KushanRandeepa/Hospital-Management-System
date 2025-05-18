@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 
 public class Patient {
-    private Integer id;
+    private String id;
     private String name;
     private String nic;
     private String address;

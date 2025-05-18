@@ -9,11 +9,11 @@ public interface PatientService {
 
     List<Patient> getPatient();
 
-    void deletePatient(Integer id);
+    void deletePatient(String id);
 
     List<Patient> searchByName(String name);
 
-    Patient searchById(Integer id);
+    Patient searchById(String id);
 
     List<Patient> searchByAddress(String address);
 
@@ -22,6 +22,7 @@ public interface PatientService {
     List<Patient> searchByCategory(String category);
 
     List<Patient> searchByBloodGroup(String bloodGroup);
+
 
 
 }

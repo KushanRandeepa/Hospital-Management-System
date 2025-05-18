@@ -24,69 +24,67 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<Patient> getPatient() {
         List<Patient> patientList = new ArrayList<>();
-        repository.findAll().forEach(patientEntity -> {
-            patientList.add(mapper.map(patientEntity, Patient.class));
-        });
+        repository.findAll().forEach(patientEntity -> patientList.add(mapper.map(patientEntity, Patient.class)));
         return patientList;
     }
 
     @Override
     public void addPatient(Patient patient) {
+
+        String newId=genarateNewId();
+        patient.setId(newId);
         repository.save(mapper.map(patient, PatientEntity.class));
     }
 
+    private String genarateNewId() {
+        String lastId = repository.findTopByOrderByIdDesc().map(entity->entity.getId()).orElse("PT000");
+        int number=Integer.parseInt(lastId.substring(2));
+        number++;
+        return String.format("PT%03d",number);
+    }
+
     @Override
-    public void deletePatient(Integer id) {
+    public void deletePatient(String id) {
         repository.deleteById(id);
     }
 
     @Override
     public List<Patient> searchByName(String name) {
         List<Patient> patients = new ArrayList<>();
-        repository.findByName(name).forEach(patientEntity -> {
-            patients.add(mapper.map(patientEntity, Patient.class));
-        });
+        repository.findByName(name).forEach(patientEntity -> patients.add(mapper.map(patientEntity, Patient.class)));
         return patients;
     }
 
     @Override
-    public Patient searchById(Integer id) {
+    public Patient searchById(String id) {
         return mapper.map(repository.findById(id),Patient.class);
     }
 
     @Override
     public List<Patient> searchByAddress(String address) {
         List<Patient> patients = new ArrayList<>();
-        repository.findByAddress(address).forEach(patientEntity -> {
-           patients.add( mapper.map(patientEntity,Patient.class));
-        });
+        repository.findByAddress(address).forEach(patientEntity -> patients.add( mapper.map(patientEntity,Patient.class)));
         return patients;
     }
 
     @Override
     public List<Patient> searchByNic(String nic) {
         List<Patient> patients = new ArrayList<>();
-        repository.findByNic(nic).forEach(patientEntity -> {
-            patients.add(mapper.map(patientEntity,Patient.class));
-        });
+        repository.findByNic(nic).forEach(patientEntity -> patients.add(mapper.map(patientEntity,Patient.class)));
         return patients;
     }
 
     @Override
     public List<Patient> searchByCategory(String category) {
         List<Patient> patients = new ArrayList<>();
-        repository.findByCategory(category).forEach(patientEntity -> {
-            patients.add(mapper.map(patientEntity,Patient.class));
-        });
+        repository.findByCategory(category).forEach(patientEntity -> patients.add(mapper.map(patientEntity,Patient.class)));
         return patients;
     }
 
     @Override
     public List<Patient> searchByBloodGroup(String bloodGroup) {
         List<Patient> patients = new ArrayList<>();
-        repository.findByBloodGroup(bloodGroup).forEach(patientEntity -> {
-            patients.add(mapper.map(patientEntity, Patient.class));
-        });
+        repository.findByBloodGroup(bloodGroup).forEach(patientEntity -> patients.add(mapper.map(patientEntity, Patient.class)));
         return patients;
     }
 }
