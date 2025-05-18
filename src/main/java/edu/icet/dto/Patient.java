@@ -20,5 +20,5 @@ public class Patient {
     private String contact;
     private String note;
     private String allergies;
-
+    private String email;
 }

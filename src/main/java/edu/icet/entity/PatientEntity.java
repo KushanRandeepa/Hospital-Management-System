@@ -27,5 +27,6 @@ public class PatientEntity {
     private String contact;
     private String note;
     private String allergies;
+    private String email;
 
 }
