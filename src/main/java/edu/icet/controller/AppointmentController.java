@@ -2,12 +2,13 @@ package edu.icet.controller;
 
 import edu.icet.dto.Appointment;
 import edu.icet.service.AppointmentService;
-import jakarta.persistence.GeneratedValue;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class AppointmentController {
 
     @DeleteMapping("/delete-appointment/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Boolean deleteAppointment(@PathVariable Integer id) {
+    public Boolean deleteAppointment(@PathVariable String id) {
         return service.deleteAppointment(id);
     }
 
@@ -43,15 +44,16 @@ public class AppointmentController {
     }
 
     @GetMapping("/search-by-id/{id}")
-    public Appointment searchAppointmentById(@PathVariable Integer id) {
+    public Appointment searchAppointmentById(@PathVariable String  id) {
         return service.searchById(id);
     }
+
     @GetMapping("/search-by-patientId/{patientId}")
-    public List<Appointment> searchAppointmentByPatientId(@PathVariable Integer patientId) {
-        return service.searchByAdminId(patientId);
+    public List<Appointment> searchAppointmentByPatientId(@PathVariable String patientId) {
+        return service.searchByPatientId(patientId);
     }
     @GetMapping("/search-by-adminId/{adminId}")
-    public List<Appointment> searchAppointmentByAdminId(@PathVariable Integer adminId) {
+    public List<Appointment> searchAppointmentByAdminId(@PathVariable String  adminId) {
         return service.searchByAdminId(adminId);
     }
 
@@ -65,8 +67,8 @@ public class AppointmentController {
         return service.searchByQueNumber(queNumber);
     }
 
-    @GetMapping("/search-by-dateTime/{dateTime}")
-    public List<Appointment> searchAppointmentById(@PathVariable LocalDateTime dateTime) {
-        return service.searchByDateTime(dateTime);
-    }
+   // @GetMapping("/search-by-date/{date}")
+//////public List<Appointment> searchAppointmentById(@PathVariable LocalDateTime dateTime) {
+       // return service.searchByDateTime(dateTime);
+    //}
 }

@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+
+
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +25,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void addAppointment(Appointment appointment) {
+       // appointment.setDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        appointment.setId(genarateNewId());
         repository.save(mapper.map(appointment, AppointmentEntity.class));
     }
+
+    private String genarateNewId() {
+        String lastId = repository.findTopByOrderByIdDesc().map(entity->entity.getId()).orElse("AP000");
+        int number=Integer.parseInt(lastId.substring(2));
+        number++;
+        return String.format("AP%03d",number);
+    }
+
 
     @Override
     public List<Appointment> getAppointment() {
@@ -33,13 +46,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Boolean deleteAppointment(Integer id) {
+    public Boolean deleteAppointment(String id) {
         repository.deleteById(id);
         return true;
     }
 
     @Override
-    public Appointment searchById(Integer id) {
+    public Appointment searchById(String id) {
         return  mapper.map(repository.findById(id),Appointment.class);
     }
 
@@ -57,22 +70,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointments;
     }
 
-    @Override
-    public List<Appointment> searchByDateTime(LocalDateTime dateTime) {
-        List<Appointment>appointments = new ArrayList<>();
-        repository.findByDateTime(dateTime).forEach(appointmentEntity -> appointments.add(mapper.map(appointmentEntity,Appointment.class)));
-        return appointments;
-    }
+//    @Override
+//    public List<Appointment> searchByDateTime(LocalDateTime dateTime) {
+//        List<Appointment>appointments = new ArrayList<>();
+//        repository.findByDateTime(dateTime).forEach(appointmentEntity -> appointments.add(mapper.map(appointmentEntity,Appointment.class)));
+//        return appointments;
+//    }
 
     @Override
-    public List<Appointment> searchByPatientId(Integer patientId) {
+    public List<Appointment> searchByPatientId(String patientId) {
         List<Appointment> appointments=new ArrayList<>();
         repository.findByPatientId(patientId).forEach(appointmentEntity -> appointments.add(mapper.map(appointmentEntity, Appointment.class)));
         return appointments;
     }
 
     @Override
-    public List<Appointment> searchByAdminId(Integer adminId) {
+    public List<Appointment> searchByAdminId(String adminId) {
         List<Appointment> appointments=new ArrayList<>();
         repository.findByAdminId(adminId).forEach(appointmentEntity -> appointments.add(mapper.map(appointmentEntity, Appointment.class)));
         return appointments;

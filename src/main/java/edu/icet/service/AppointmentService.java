@@ -2,6 +2,8 @@ package edu.icet.service;
 
 import edu.icet.dto.Appointment;
 
+import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,17 +13,17 @@ public interface AppointmentService {
 
     List<Appointment> getAppointment();
 
-    Boolean deleteAppointment(Integer id);
+    Boolean deleteAppointment(String id);
 
-    Appointment searchById(Integer id);
+    Appointment searchById(String id);
 
     List<Appointment> searchByRoomNumber(Integer roomNumber);
 
     List<Appointment> searchByQueNumber(Integer queNumber);
 
-    List<Appointment> searchByDateTime(LocalDateTime dateTime);
+    //List<Appointment> searchByDateTime(LocalDateTime date);
 
-    List<Appointment> searchByPatientId(Integer patientID);
+    List<Appointment> searchByPatientId(String patientID);
 
-    List<Appointment> searchByAdminId(Integer adminId);
+    List<Appointment> searchByAdminId(String adminId);
 }
