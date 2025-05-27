@@ -27,6 +27,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/get-all")
+
     public List<Appointment> getAllAppointment() {
         return service.getAppointment();
     }

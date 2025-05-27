@@ -4,6 +4,7 @@ import edu.icet.dto.Patient;
 import edu.icet.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +18,14 @@ public class PatientController {
     final PatientService service;
 
     @GetMapping("/get-all")
+    @PreAuthorize("hasRole('USER')")
     public List<Patient> getPatient() {
         return service.getPatient();
     }
 
     @PostMapping("/add-patient")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public void addPatient(@RequestBody Patient patient){
         service.addPatient(patient);
     }
