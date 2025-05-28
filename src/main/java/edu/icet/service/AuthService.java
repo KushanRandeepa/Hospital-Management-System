@@ -1,9 +1,6 @@
 package edu.icet.service;
 
-import edu.icet.dto.JwtResponse;
-import edu.icet.dto.LoginRequest;
-import edu.icet.dto.Role;
-import edu.icet.dto.SignupRequest;
+import edu.icet.dto.*;
 import edu.icet.entity.UserEntity;
 import edu.icet.repository.UserRepository;
 import edu.icet.security.JwtUtils;
@@ -19,8 +16,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -31,10 +26,17 @@ public class AuthService {
     final UserDetailsServiceImpl userDetailsService;
     final JwtUtils jwtUtils;
 
+    public JwtResponse createUser(SignupRequest signupRequest) {
 
-    public String createUser(SignupRequest signupRequest) {
         UserEntity user = mapper.map(signupRequest, UserEntity.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        if (repository.existsByUsername(user.getUsername()))
+            return new JwtResponse (null, "Username already taken!",null);
+        if (repository.existsByEmail(user.getEmail()))
+            return new JwtResponse (null, "email already taken!", null);
+
+
 
         Set<Role> roles = new HashSet<>();
         if (signupRequest.getRoles() == null || signupRequest.getRoles().isEmpty()) {
@@ -44,18 +46,17 @@ public class AuthService {
                 try {
                     roles.add(Role.valueOf("ROLE_"+roleStr.toUpperCase()));
                 } catch (IllegalArgumentException e) {
-
                     // handle invalid role string or ignore
                 }
             });
         }
         user.setRoles(roles);
 
-        if (repository.existsByUsername(user.getUsername())) return "Username already taken!";
-        if (repository.existsByEmail(user.getEmail())) return "Email already taken!";
+
 
         repository.save(user);
-        return "User registered successfully!";
+        return new JwtResponse (null, null, "Useesrname Registed Succs!");
+
     }
 
     public JwtResponse login(LoginRequest loginRequest) {
@@ -70,10 +71,10 @@ public class AuthService {
 
             String token = jwtUtils.generateToken(userDetails);
 
-            return new JwtResponse(token, loginRequest.getUsername());
+            return new JwtResponse(token, null,"login Success");
 
         } catch (Exception e) {
-            return new JwtResponse(null, "User not Found");
+            return new JwtResponse(null, "User not Found",null);
         }
     }
 }

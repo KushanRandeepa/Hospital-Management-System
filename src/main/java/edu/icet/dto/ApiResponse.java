@@ -5,14 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtResponse {
-    private String token;
+
+public class ApiResponse {
+    private boolean success;
     private String error;
-    private String massage;
+    private String message;
 
 }

@@ -1,32 +1,42 @@
 package edu.icet.controller;
 
+
 import edu.icet.dto.JwtResponse;
 import edu.icet.dto.LoginRequest;
 import edu.icet.dto.SignupRequest;
-import edu.icet.entity.UserEntity;
+
 import edu.icet.security.JwtUtils;
 import edu.icet.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-
+@CrossOrigin
 public class AuthController {
     final AuthService authService;
     final JwtUtils jwtUtils;
 
     @PostMapping("/signup")
-    public String createUser(@RequestBody SignupRequest signupRequest ){
-       return authService.createUser(signupRequest);
+    public ResponseEntity<JwtResponse> createUser(@RequestBody SignupRequest signupRequest ){
+        JwtResponse response = authService.createUser(signupRequest);
+        if (response.getError()!=null) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(response);
+        }
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @PostMapping("/login")
-    public JwtResponse login(@RequestBody LoginRequest loginRequest){
-        return  authService.login(loginRequest);
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest loginRequest){
+        JwtResponse response = authService.login(loginRequest);
+        if (response.getError()!=null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/done")
@@ -34,8 +44,3 @@ public class AuthController {
         return "done";
     }
 }
-//{
-//        "username":"randeepa",
-//        "password":"24",
-//        "email":"kr@gmail.com"
-//        }
