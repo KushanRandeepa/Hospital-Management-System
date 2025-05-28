@@ -7,17 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-
-
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -37,9 +35,10 @@ public class SecurityConfig {
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth->auth
-                                .requestMatchers("/signup").permitAll()
-                                .requestMatchers("/login").permitAll()
-//                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/signup","/login").permitAll()
+                                .requestMatchers("/patient/**").hasAnyRole("ADMIN","PATIENT")
+                                .requestMatchers("/appointment/**").hasAnyRole("DOCTOR","ADMIN")
+                                .requestMatchers("/medical-reports/**").hasAnyRole("DOCTOR","PATIENT")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -60,10 +59,10 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-//  @Bean
-//    public UserDetailsService userDetailsService(){
-//        return new UserDetailsServiceImpl(repository);
-//   }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return  authConfig.getAuthenticationManager();
+    }
 
 
 

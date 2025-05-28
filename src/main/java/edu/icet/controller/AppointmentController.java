@@ -5,6 +5,7 @@ import edu.icet.service.AppointmentService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,7 +16,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appointment")
-@CrossOrigin
+@PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' )")
+
 public class AppointmentController {
 
     final AppointmentService service;

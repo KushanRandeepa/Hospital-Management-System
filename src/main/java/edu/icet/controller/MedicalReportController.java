@@ -4,15 +4,18 @@ import edu.icet.dto.MedicalReport;
 import edu.icet.service.MedicalReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+
 @RequestMapping("/medical-report")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole( 'DOCTOR' , 'PATIENT')")
+
 public class MedicalReportController {
 
     final MedicalReportService service;

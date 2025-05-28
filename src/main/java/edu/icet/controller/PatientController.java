@@ -11,21 +11,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/patient")
+@PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' , 'PATIENT')")
 public class PatientController {
 
     final PatientService service;
 
     @GetMapping("/get-all")
-    @PreAuthorize("hasRole('USER')")
+//
     public List<Patient> getPatient() {
         return service.getPatient();
     }
 
     @PostMapping("/add-patient")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void addPatient(@RequestBody Patient patient){
         service.addPatient(patient);
     }

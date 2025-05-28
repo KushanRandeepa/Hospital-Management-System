@@ -1,5 +1,8 @@
 package edu.icet.controller;
 
+import edu.icet.dto.JwtResponse;
+import edu.icet.dto.LoginRequest;
+import edu.icet.dto.SignupRequest;
 import edu.icet.entity.UserEntity;
 import edu.icet.security.JwtUtils;
 import edu.icet.service.AuthService;
@@ -17,17 +20,22 @@ public class AuthController {
     final JwtUtils jwtUtils;
 
     @PostMapping("/signup")
-    public void createUser(@RequestBody UserEntity userEntity){
-          authService.createUser(userEntity);
+    public String createUser(@RequestBody SignupRequest signupRequest ){
+       return authService.createUser(signupRequest);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserEntity userEntity){
-        authService.createUser(userEntity);
-        return jwtUtils.generateToken(userEntity.getUsername());
+    public JwtResponse login(@RequestBody LoginRequest loginRequest){
+        return  authService.login(loginRequest);
     }
+
     @GetMapping("/done")
     public String done(){
         return "done";
     }
 }
+//{
+//        "username":"randeepa",
+//        "password":"24",
+//        "email":"kr@gmail.com"
+//        }

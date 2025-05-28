@@ -1,32 +1,28 @@
 package edu.icet.entity;
 
+import edu.icet.dto.Role;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import javax.management.relation.Role;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
-@Entity
 
+@Setter
+@Getter
+@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String username;
-
-    public UserEntity(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    //    private String email;
+    private String email;
     private String password;
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @Enumerated(EnumType.STRING)
-//    private Set<Role> roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
 }

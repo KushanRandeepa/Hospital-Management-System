@@ -19,7 +19,7 @@ public class Appointment {
     private String id;
     private String type;
     private String qr;
-  private String description;
+    private String description;
     private String status;
     private Integer roomNumber;
     private Integer queNumber;

@@ -8,9 +8,5 @@ spring:
     hibernate:
       ddl-auto: update
 
-  security:
-    user:
-      name: kushan
-      password: 12345
 
 
