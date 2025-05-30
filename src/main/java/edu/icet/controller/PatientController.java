@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/patient")
 @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' , 'PATIENT')")
 public class PatientController {

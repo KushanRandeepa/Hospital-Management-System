@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/appointment")
 @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' )")
-
+@CrossOrigin
 public class AppointmentController {
 
     final AppointmentService service;
@@ -70,8 +70,5 @@ public class AppointmentController {
         return service.searchByQueNumber(queNumber);
     }
 
-   // @GetMapping("/search-by-date/{date}")
-//////public List<Appointment> searchAppointmentById(@PathVariable LocalDateTime dateTime) {
-       // return service.searchByDateTime(dateTime);
-    //}
+
 }

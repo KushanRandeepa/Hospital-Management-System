@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-
+@CrossOrigin
 @RequestMapping("/medical-report")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole( 'DOCTOR' , 'PATIENT')")
