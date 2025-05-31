@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/appointment")
 @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' )")
-@CrossOrigin
+
 public class AppointmentController {
 
     final AppointmentService service;

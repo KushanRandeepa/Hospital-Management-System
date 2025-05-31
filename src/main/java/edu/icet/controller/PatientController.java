@@ -4,6 +4,7 @@ import edu.icet.dto.Patient;
 import edu.icet.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/patient")
-@PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' , 'PATIENT')")
+@PreAuthorize("hasAnyRole('ADMIN', 'PATIENT')")
 public class PatientController {
 
     final PatientService service;

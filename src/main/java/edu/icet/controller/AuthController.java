@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
+
 public class AuthController {
     final AuthService authService;
     final JwtUtils jwtUtils;
