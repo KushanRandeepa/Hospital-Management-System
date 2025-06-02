@@ -36,7 +36,7 @@ public class PatientController {
         public void deletePatient(@PathVariable String id){
             service.deletePatient(id);
     }
-    @PutMapping("update")
+    @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
     public void updatePatient(@RequestBody Patient patient){
         service.addPatient(patient);

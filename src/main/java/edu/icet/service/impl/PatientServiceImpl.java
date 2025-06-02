@@ -2,7 +2,9 @@ package edu.icet.service.impl;
 
 import edu.icet.dto.Patient;
 import edu.icet.entity.PatientEntity;
+import edu.icet.entity.UserEntity;
 import edu.icet.repository.PatientRepository;
+import edu.icet.repository.UserRepository;
 import edu.icet.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
+    final UserRepository userRepository;
     final PatientRepository repository;
     final ModelMapper mapper;
 
@@ -31,12 +34,18 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void addPatient(Patient patient) {
 
-        String newId=genarateNewId();
+        String newId=generateNewId();
         patient.setId(newId);
         repository.save(mapper.map(patient, PatientEntity.class));
+
+        UserEntity userEntity=new UserEntity();
+        userEntity.setCustomId(newId);
+        userEntity.setUsername(patient.getName());
+        userEntity.setPassword("1234");
+        userRepository.save(userEntity);
     }
 
-    private String genarateNewId() {
+    private String generateNewId() {
         String lastId = repository.findTopByOrderByIdDesc().map(entity->entity.getId()).orElse("PT000");
         int number=Integer.parseInt(lastId.substring(2));
         number++;

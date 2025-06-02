@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 .requestMatchers("/signup","/login").permitAll()
                                 .requestMatchers("/patient/**").hasAnyRole("ADMIN","PATIENT")
                                 .requestMatchers("/appointment/**").hasAnyRole("DOCTOR","ADMIN","PATIENT")
-                                .requestMatchers("/medical-reports/**").hasAnyRole("DOCTOR","PATIENT")
+                                .requestMatchers("/medical-reports/**").hasAnyRole("DOCTOR")
                                 .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
