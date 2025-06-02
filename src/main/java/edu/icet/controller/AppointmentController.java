@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appointment")
-@PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' )")
+@PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR' ,'PATIENT')")
 
 public class AppointmentController {
 
@@ -55,10 +55,7 @@ public class AppointmentController {
     public List<Appointment> searchAppointmentByPatientId(@PathVariable String patientId) {
         return service.searchByPatientId(patientId);
     }
-    @GetMapping("/search-by-adminId/{adminId}")
-    public List<Appointment> searchAppointmentByAdminId(@PathVariable String  adminId) {
-        return service.searchByAdminId(adminId);
-    }
+
 
     @GetMapping("/search-by-roomNumber/{roomNumber}")
     public List<Appointment> searchAppointmentByRoomNumber(@PathVariable Integer roomNumber) {

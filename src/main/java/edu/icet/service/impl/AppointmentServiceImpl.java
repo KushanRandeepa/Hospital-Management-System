@@ -26,7 +26,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void addAppointment(Appointment appointment) {
         Integer pendingCount  = repository.countByStatus("PENDING");
-        // appointment.setDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         appointment.setId(generateNewId());
         appointment.setQueNumber(pendingCount + 1);
         repository.save(mapper.map(appointment, AppointmentEntity.class));
@@ -73,12 +72,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointments;
     }
 
-//    @Override
-//    public List<Appointment> searchByDateTime(LocalDateTime dateTime) {
-//        List<Appointment>appointments = new ArrayList<>();
-//        repository.findByDateTime(dateTime).forEach(appointmentEntity -> appointments.add(mapper.map(appointmentEntity,Appointment.class)));
-//        return appointments;
-//    }
 
     @Override
     public List<Appointment> searchByPatientId(String patientId) {
@@ -87,23 +80,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointments;
     }
 
-    @Override
-    public List<Appointment> searchByAdminId(String adminId) {
-        List<Appointment> appointments=new ArrayList<>();
-        repository.findByAdminId(adminId).forEach(appointmentEntity -> appointments.add(mapper.map(appointmentEntity, Appointment.class)));
-        return appointments;
-    }
+
 
     @Override
     public void updateAppointment(Appointment appointment) {
         appointment.setStatus("COMPLETED");
         repository.save(mapper.map(appointment, AppointmentEntity.class));
 
-
-//        int update = repository.updateStatusById("COMPLETED", id);
-////        if(update==0){
-//            throw new RuntimeException("Appointment not found or already canceled");
-//        }
     }
 
 }

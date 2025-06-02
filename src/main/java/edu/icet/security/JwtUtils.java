@@ -1,11 +1,15 @@
 package edu.icet.security;
 
 
+import edu.icet.entity.UserEntity;
+import edu.icet.repository.UserRepository;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
@@ -16,6 +20,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtUtils {
 
+    @Autowired
+    private UserRepository userRepository;
 
     private final SecretKey secretKey;
 
@@ -29,8 +35,9 @@ public class JwtUtils {
         }
     }
 
-    public String generateToken(UserDetails userDetails ) {
-
+    public String generateToken(UserDetails userDetails) {
+        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
@@ -41,6 +48,7 @@ public class JwtUtils {
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10)) // 10 min
                 .claim("roles", roles) // ✅ roles included
+                .claim("userId", user.getCustomId())
                 .signWith(secretKey) // assuming secretKey is a Secure `Key` object
                 .compact();
     }

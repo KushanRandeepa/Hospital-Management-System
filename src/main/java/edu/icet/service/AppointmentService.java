@@ -21,11 +21,8 @@ public interface AppointmentService {
 
     List<Appointment> searchByQueNumber(Integer queNumber);
 
-    //List<Appointment> searchByDateTime(LocalDateTime date);
-
     List<Appointment> searchByPatientId(String patientID);
 
-    List<Appointment> searchByAdminId(String adminId);
 
     void updateAppointment(Appointment appointment);
 }
