@@ -36,14 +36,14 @@ public class JwtUtils {
                 .collect(Collectors.toList());
 
         return Jwts.builder()
-                .subject(userDetails.getUsername())
-                .claim("roles", roles)
+                .subject(userDetails.getUsername()) // user email or username
+//                .issuer("springboot-jwt-app") // optional
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
-                .signWith(secretKey)
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10)) // 10 min
+                .claim("roles", roles) // ✅ roles included
+                .signWith(secretKey) // assuming secretKey is a Secure `Key` object
                 .compact();
     }
-
 
     public String getUsernameFromToken(String token) {
         try {

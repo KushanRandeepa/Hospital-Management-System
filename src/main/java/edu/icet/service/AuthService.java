@@ -39,24 +39,35 @@ public class AuthService {
 
 
         Set<Role> roles = new HashSet<>();
-        if (signupRequest.getRoles() == null || signupRequest.getRoles().isEmpty()) {
-            roles.add(Role.ROLE_PATIENT); // default role
+        if (signupRequest.getRole() == null || signupRequest.getRole().isEmpty()) {
+            roles.add(Role.ROLE_PATIENT); // default role if none provided
         } else {
-            signupRequest.getRoles().forEach(roleStr -> {
-                try {
-                    roles.add(Role.valueOf("ROLE_"+roleStr.toUpperCase()));
-                } catch (IllegalArgumentException e) {
-                    // handle invalid role string or ignore
-                }
-            });
+            try {
+                roles.add(Role.valueOf("ROLE_" + signupRequest.getRole().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                return new JwtResponse(null, "Invalid role provided!", null);
+            }
         }
         user.setRoles(roles);
 
-
+        Role role = roles.iterator().next(); // since you allow only one role
+        String prefix = getPrefixByRole(role); // PT, AD, etc.
+        Integer count = repository.countByRolesContaining(role); // count existing users of this role
+        String generatedId = String.format("%s%03d", prefix, count + 1);
+        user.setCustomId(generatedId);
 
         repository.save(user);
         return new JwtResponse (null, null, "Useesrname Registed Succs!");
 
+    }
+    private String getPrefixByRole(Role role) {
+        switch (role) {
+            case ROLE_PATIENT: return "PT";
+            case ROLE_ADMIN: return "AD";
+            case ROLE_DOCTOR: return "DR";
+            case ROLE_NURSE: return "NR";
+            default: return "XX";
+        }
     }
 
     public JwtResponse login(LoginRequest loginRequest) {

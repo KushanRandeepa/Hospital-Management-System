@@ -40,10 +40,10 @@ public class AppointmentController {
         return service.deleteAppointment(id);
     }
 
-    @PutMapping("/update-appointment")
+    @PutMapping("/update-appointment/")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateAppointment(@RequestBody Appointment appointment) {
-        service.addAppointment(appointment);
+        service.updateAppointment(appointment);
     }
 
     @GetMapping("/search-by-id/{id}")

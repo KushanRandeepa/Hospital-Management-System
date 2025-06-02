@@ -14,5 +14,4 @@ public class JwtResponse {
     private String token;
     private String error;
     private String massage;
-
 }

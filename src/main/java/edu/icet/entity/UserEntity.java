@@ -21,7 +21,8 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
-
+    @Column(unique = true)
+    private  String customId;
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();

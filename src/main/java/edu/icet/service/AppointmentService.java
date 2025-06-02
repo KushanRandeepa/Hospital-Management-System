@@ -26,4 +26,6 @@ public interface AppointmentService {
     List<Appointment> searchByPatientId(String patientID);
 
     List<Appointment> searchByAdminId(String adminId);
+
+    void updateAppointment(Appointment appointment);
 }

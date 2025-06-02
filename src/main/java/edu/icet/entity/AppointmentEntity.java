@@ -29,7 +29,6 @@ public class AppointmentEntity {
     private Integer roomNumber;
     private Integer queNumber;
     private String patientId;
-    private String adminId;
     private String appointmentDate;
     private String appointmentTime;
 
